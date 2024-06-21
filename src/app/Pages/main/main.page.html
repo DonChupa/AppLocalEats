@@ -1,20 +1,13 @@
 
 <ion-content [fullscreen]="true">
-  <div *ngIf="repartidor$ | async as repartidor; else loading">
+  <div *ngIf="repartidor$ | async as admin; else loading">
     <ion-card>
-    <h1>{{ repartidor[0].nombre }} {{ repartidor[0].apellido }}</h1>
-    <p><strong>Teléfono:</strong> {{ repartidor[0].telefono }}</p>
-    <p><strong>Puntaje:</strong> {{ repartidor[0].puntaje }}</p>
-    <div *ngIf="repartidor2$ | async as repartidor2; else charge">
-  <p><strong>Puntaje:</strong> {{ repartidor2[0].disponibilidad }}</p>
-      <ion-button (click)="SetMode()"> cambiar disponibilidad</ion-button>
-    </div>
+    <h1>{{ admin[0].nombre }} {{ admin[0].apellido }}</h1>
+    <p><strong>Teléfono:</strong> {{ admin[0].telefono }}</p>
   </ion-card>
   </div>
   <ng-template #loading>
     <p>Cargando datos del repartidor...</p>
   </ng-template>
-  <ng-template #charge>
-    <p>Cargando datos del repartidor...</p>
-  </ng-template>
+
 </ion-content>

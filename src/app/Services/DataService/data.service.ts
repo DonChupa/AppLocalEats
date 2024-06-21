@@ -11,8 +11,8 @@ export class DataService {
 // inicializar ionic storage
   async init() {
     const storage = await this.storage.create();
-    const repa = ['tom.flores@duocuc.cl' , '123patata']
-    this.set('repa',repa);
+    const rest = ['nico.moyano@duocuc.cl' , '123patata']
+    this.set('rest',rest);
   }
   async set(key: string, value: any) {
     await this.storage.set(key, value);

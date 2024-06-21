@@ -1,5 +1,5 @@
 {
-  "name": "AppClienteUberEats",
+  "name": "AppRestaurantUberEats",
   "integrations": {
     "capacitor": {}
   },

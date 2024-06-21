@@ -43,10 +43,9 @@ export class RegistroComponent implements OnInit {
     const result = await this.authService.signUp(this.email, this.password);
     if (result == true) {
       this.authService.signIn(this.email, this.password);
-      const repa = [this.email, this.password];
-      this.data.setItem('repa', repa);
-      this.db.AddRep(this.nombre, this.email, this.telefono, this.apellido);
-      this.db.AddRepart(repa[0]);
+      const rest = [this.email, this.password];
+      this.data.setItem('rest', rest);
+      this.db.AddRest(this.nombre, this.email, this.telefono, this.apellido);
       this.router.navigate(['/main']);
     }}
     catch (error) {
