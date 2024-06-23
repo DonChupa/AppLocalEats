@@ -10,6 +10,7 @@ const repRef = ref(database, 'Usuarios');
 const repartRef = ref(database, 'Repartidores');
 const restRef = ref(database,'Restaurante');
 const prodRef = ref(database,'Productos');
+const pedRef = ref(database, 'Pedido');
 @Injectable({
   providedIn: 'root'
 })
@@ -79,10 +80,67 @@ export class DatabaseService {
 
     
   }
+  LoadProds(id : any): Observable<ProdIn[]> {
+    return new Observable<ProdIn[]>((subscriber) => {
+      const unsubscribe = onValue(prodRef, (snapshot: DataSnapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const prods: ProdIn[] = Object.keys(data)
+          .filter((key) => data[key].id_restaurante == id).map((key) => ({
+            descripcion : data[key].descripcion,
+            imagen: data[key].imagen,
+            id : key,
+            id_restaurante : data[key].id_restaurante,
+            nombre : data[key].nombre,
+            precio : data[key].precio,
+          }));
+          subscriber.next(prods);
+        } else {
+          subscriber.next([]);
+        }
+      });
+      return () => {
+        unsubscribe();
+      };
+    });
+  }
+  LoadPed(c: string, r:string): Observable<PedidOut[]> {
+    return new Observable<PedidOut[]>((subscriber) => {
+      const unsubscribe = onValue(pedRef, (snapshot: DataSnapshot) => {
+        if (!snapshot.exists()) {
+          console.log('No se encontraron datos en Firebase');
+          subscriber.next([]);
+          return;
+        }
+        const data = snapshot.val();
+          const peds: PedidOut[] = Object.keys(data)
+           .filter((key) => (data[key].estado == c && data[key].id_rest == r))
+            .map((key) => ({
+              cantidad: data[key].cantidad,
+              estado: data[key].estado,
+              id_usuario: data[key].id_usuario,
+              producto: data[key].producto,
+              precio: data[key].precio,
+              key: key,
+            }));
+          subscriber.next(peds);
+      }, (error) => {
+        console.error('Error al obtener datos de Firebase:', error);
+        subscriber.error(error);
+      });
+  
+      return () => {
+        unsubscribe();
+      };
+    });
+  }
+  deletePred(key : any){
+    remove(ref(database,`Pedido/${key}`));
+  }
 
   LoadRest(email: string): Observable<RestIn[]> {
     return new Observable<RestIn[]>((subscriber) => {
-      const unsubscribe = onValue(repartRef, (snapshot: DataSnapshot) => {
+      const unsubscribe = onValue(restRef, (snapshot: DataSnapshot) => {
         if (!snapshot.exists()) {
           console.log('No se encontraron datos en Firebase');
           subscriber.next([]);
@@ -96,7 +154,7 @@ export class DatabaseService {
               h_apertura: data[key].h_apertura,
               h_cierre: data[key].h_cierre,
               id: key,
-              id_user: data[key].id_user,
+              id_usuario: data[key].id_usuario,
               nombre: data[key].nombre,
               telefono: data[key].telefono,
               imagen: data[key].imagen,
@@ -143,9 +201,9 @@ export class DatabaseService {
   async AddProd(desc : string, id_rest: any, nombre: string, precio: number, imagen: any){
     const id = '';
     const NweProd : ProdIn = {
-      desc: desc,
+      descripcion: desc,
       id: id,
-      id_rest: id_rest,
+      id_restaurante: id_rest,
       nombre: nombre,
       precio: precio,
       imagen: imagen,
@@ -162,8 +220,9 @@ export class DatabaseService {
   }
 
   async UpdProd(NweProd: ProdIn) {
+    console.log(NweProd);
     const key = NweProd.id;
-    if (key) {
+    if (key !== null) {
       try {
         await update(ref(database, `Productos/${key}`), NweProd);
         console.log('Producto actualizado exitosamente');
@@ -172,6 +231,20 @@ export class DatabaseService {
       }
     } else {
       console.error('ID del producto no válido');
+    }
+  }
+  async UpdPd(NweProd: PedidOut) {
+    console.log(NweProd);
+    const key = NweProd.key;
+    if (key !== null) {
+      try {
+        await update(ref(database, `Pedido/${key}`), NweProd);
+        console.log('Producto actualizado exitosamente');
+      } catch (error) {
+        console.error('Error al actualizar el pedido:', error);
+      }
+    } else {
+      console.error('ID del pedido no válido');
     }
   }
 
@@ -198,9 +271,9 @@ export class  RepOut{
   key: string= '';
 };
 export class ProdIn {
-  desc: string = '';
+  descripcion: string = '';
   id: string= '';
-  id_rest: string = '';
+  id_restaurante: any = '';
   nombre: string = '';
   precio: number= 0;
   imagen:string = '';
@@ -210,7 +283,7 @@ export class RestIn {
   h_apertura: string = '';
   h_cierre: string = '';
   id: string = '';
-  id_user: string = '';
+  id_usuario: string = '';
   nombre: string = '';
   telefono: string= '';
   imagen: string = '';
@@ -219,7 +292,7 @@ export class PedidOut{
 cantidad: number = 1;
 estado: string = '';
 id_usuario: any;
-productos: any;
+producto: any;
 precio: number = 0;
 key: any;
 };

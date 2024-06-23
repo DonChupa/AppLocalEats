@@ -41,7 +41,6 @@ export class InicsesComponent  implements OnInit {
           else{
             const rest = [this.email, this.password];
             this.data.setItem('rest', rest);
-            const a = await this.data.getItem('rest');
             this.router.navigate(['/main']);
           }
         }}

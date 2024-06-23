@@ -1,5 +1,5 @@
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <div *ngIf="repartidor$ | async as admin; else loading">
     <ion-card>
     <h1>{{ admin[0].nombre }} {{ admin[0].apellido }}</h1>
@@ -11,3 +11,25 @@
   </ng-template>
 
 </ion-content>
+
+<ion-footer>
+  <ion-tab-bar slot="bottom" >
+    <ion-tab-button [routerLink]="['/pedidos']">
+      <ion-icon name="home-sharp"></ion-icon>
+      Inicio
+    </ion-tab-button>
+    <ion-tab-button tab="radio">
+      <ion-icon name="radio"></ion-icon>
+      Radio
+    </ion-tab-button>
+    <ion-tab-button tab="library">
+      <ion-icon name="library"></ion-icon>
+      Library
+    </ion-tab-button>
+    <ion-tab-button tab="search">
+      <ion-icon name="search"></ion-icon>
+      Search
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>
+

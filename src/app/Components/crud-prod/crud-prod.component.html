@@ -1,0 +1,33 @@
+<div *ngFor=" let p of prods">
+  <ion-card style=" text-align: center;">
+  <p style="padding: 10%;"><img [src]="p.imagen" alt=""></p> 
+<p>  <font size="7"> {{ p.nombre }}</font></p> 
+<p> {{ p.descripcion }}</p>
+<p> {{ p.precio }}</p>
+<p>  <ion-button (click)="openModal(p)"> modificar </ion-button></p> 
+
+  <ion-modal #modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-card style="text-align: center; padding:5%;display:flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; flex-direction: column;">
+          <img [src]="prod.imagen" alt="">
+          <font size="7" style="width: 100%; display: block;"><ion-input [(ngModel)]="prod.nombre" name="nombre" placeholder="Nombre"></ion-input></font>
+          <ion-textarea [(ngModel)]="prod.descripcion" name="descripcion" placeholder="Descripción"></ion-textarea>
+          <ion-input [(ngModel)]="prod.precio" name="precio" placeholder="Precio" type="number"></ion-input>
+          <ion-button (click)="update(prod)">Aceptar</ion-button>
+        </div>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-card>
+</div>
+

@@ -26,7 +26,6 @@ export class AuthService {
   }
   constructor(private afAuth: AngularFireAuth, private router: Router, private data : DataService)
    {this.exist();
-    
    }
   // metodo crear cuenta con manejo de errores
   async signIn(email: string, password: string): Promise<boolean> {
@@ -34,7 +33,8 @@ export class AuthService {
       await this.afAuth.signInWithEmailAndPassword(email, password);
       this.isAuthenticated.next(true);
       console.log('exito')
-      console.log(this.isAuthenticated.value)
+      console.log(this.isAuthenticated.value);
+      this.router.navigate(['/main']);
       return true;
       
     } catch (error) {
@@ -47,6 +47,7 @@ export class AuthService {
   async signUp(email: string, password: string): Promise<any> {
     try {
         await this.afAuth.createUserWithEmailAndPassword(email, password);
+        
         return true;
     } catch (error) {
         if (error !== null && typeof error === 'object' && 'message' in error) {
@@ -67,7 +68,7 @@ async signOut(): Promise<void> {
 // no me acuerdo que hace pero si se borra no funciona
 async exist(){
  try {
-    const existe = await this.data.getItem('user');
+    const existe = await this.data.getItem('rest');
     console.log('funciona biennn');
     this.signIn(existe[0], existe[1]);
 } catch (error) {
