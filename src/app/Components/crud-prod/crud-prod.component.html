@@ -4,7 +4,10 @@
 <p>  <font size="7"> {{ p.nombre }}</font></p> 
 <p> {{ p.descripcion }}</p>
 <p> {{ p.precio }}</p>
+<div style="display: flex; justify-content: space-around;">
 <p>  <ion-button (click)="openModal(p)"> modificar </ion-button></p> 
+<p>  <ion-button (click)="deleteprod(p)"> eliminar </ion-button></p> 
+</div>
 
   <ion-modal #modal>
     <ng-template>
@@ -29,5 +32,8 @@
     </ng-template>
   </ion-modal>
 </ion-card>
+</div>
+<div style="text-align: center;">
+<p>  <ion-button (click)="openModal(prod)"> Agregar producto </ion-button></p> 
 </div>
 

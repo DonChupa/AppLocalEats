@@ -21,16 +21,29 @@
   <nav *ngIf="content; else loading">
     <div *ngFor="let peds of filteredpeds">
       <ion-card style="text-align: center; display: flex; flex-direction: column; align-content: center;">
-        <font size="5"> orden</font>
-      <div *ngFor="let p of peds">
         <ion-card-header style="height: 30%">
+          <font size="5"> orden</font>
+          <p> {{ peds[0].id_usuario }} </p>
         </ion-card-header>
-        <font size="7"> {{ p.producto }}</font>
-        <p> {{ p.cantidad }} </p>
-        <p> {{ p.id_usuario }} </p>
-        <p><ion-button style="width:70%" (click)="changeState(p)"> ver productos </ion-button></p>
+      <div *ngFor="let p of peds">
+        <div style="display: flex; justify-content: space-between; padding: 5%;">
+          <font size="4"><p> {{ p.cantidad }} </p></font>
+        <font size="4"><p> {{ p.producto }}</p></font>
+        
         <p><ion-button style="width:70%" (click)="delete(p.key)"> Borrar </ion-button></p>
       </div>
+
+      </div>
+      <div *ngIf="peds[0].estado == 'En Espera'">
+        <p><ion-button style="width:70%" (click)="changeState(peds)"> Comenzar a preparar </ion-button></p>
+      </div>
+      <div *ngIf="peds[0].estado == 'En proceso'">
+        <p><ion-button style="width:70%" (click)="changeState(peds)"> Terminar Orden </ion-button></p>
+      </div>
+      <div *ngIf="peds[0].estado == 'Esperando Repartidor'">
+        <p><ion-button style="width:70%" (click)="openModal()"> Buscar Repartidor </ion-button></p>
+      </div>
+      
     </ion-card>
     </div>
   </nav>
@@ -48,8 +61,25 @@
       <p><font size="5">No existen productos o no hay conexión </font></p>
     </div>
 
+    </ng-template>
   </ng-template>
-  </ng-template>
 
 
 
+  <ion-modal #modal>
+    <ng-template>
+      <ion-header>
+        <ion-button (click)='closeModal()'>cerrar</ion-button>
+      </ion-header>
+      <ion-content style="display: flex; justify-content: center;">
+        <ion-card style="text-align: center;">
+          <font size="5"> Tomas Suzuki </font>
+          <p> vehiculo: auto</p>
+          <p>puntaje: 4 estrellas</p>
+          <ion-button (click)="movercoquito()"> Seleccionar Repartidor </ion-button>
+      </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  

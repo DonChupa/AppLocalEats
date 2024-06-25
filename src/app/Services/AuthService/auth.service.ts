@@ -68,7 +68,9 @@ async signOut(): Promise<void> {
 // no me acuerdo que hace pero si se borra no funciona
 async exist(){
  try {
+
     const existe = await this.data.getItem('rest');
+    
     console.log('funciona biennn');
     this.signIn(existe[0], existe[1]);
 } catch (error) {

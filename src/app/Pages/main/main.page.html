@@ -16,19 +16,15 @@
   <ion-tab-bar slot="bottom" >
     <ion-tab-button [routerLink]="['/pedidos']">
       <ion-icon name="home-sharp"></ion-icon>
-      Inicio
-    </ion-tab-button>
-    <ion-tab-button tab="radio">
+      Menú pedidos
+    </ion-tab-button >
+    <ion-tab-button [routerLink]="['/main']">
       <ion-icon name="radio"></ion-icon>
-      Radio
+      principal
     </ion-tab-button>
-    <ion-tab-button tab="library">
+    <ion-tab-button [routerLink]="['/prods']">
       <ion-icon name="library"></ion-icon>
-      Library
-    </ion-tab-button>
-    <ion-tab-button tab="search">
-      <ion-icon name="search"></ion-icon>
-      Search
+      Menú carta
     </ion-tab-button>
   </ion-tab-bar>
 </ion-footer>

@@ -11,6 +11,7 @@ const repartRef = ref(database, 'Repartidores');
 const restRef = ref(database,'Restaurante');
 const prodRef = ref(database,'Productos');
 const pedRef = ref(database, 'Pedido');
+const EntreRef = ref(database,'Entrega');
 @Injectable({
   providedIn: 'root'
 })
@@ -213,9 +214,6 @@ export class DatabaseService {
     if (key !== null){
     NweProd.id = key;
     update(newRef, NweProd);
-    console.log('hey hey hey chavalines');
-    }else{
-      console.log('key es null');
     }
   }
 
@@ -248,14 +246,91 @@ export class DatabaseService {
     }
   }
 
-  RemoveProd(key: any) {
-    remove(ref(database,`Productos/${key}`))
+  RemoveProd(p: ProdIn) {
+    remove(ref(database,`Productos/${p.id}`))
       .then(() => {
         console.log('producto eliminado exitosamente.');
       })
       .catch((error) => {
         console.error('Error al eliminar producto:', error);
       });
+  }
+  LoadClicli(): Observable<RepOut[]> {
+    return new Observable<RepOut[]>((subscriber) => {
+      const unsubscribe = onValue(repRef, (snapshot: DataSnapshot) => {
+        if (!snapshot.exists()) {
+          console.log('No se encontraron datos en Firebase');
+          subscriber.next([]);
+          return;
+        }
+        const data = snapshot.val();
+          const rep: RepOut[] = Object.keys(data)
+            .map((key) => ({
+              nombre: data[key].nombre,
+              apellido:  data[key].apellido,
+              imagen:  data[key].imagen,
+              direccion:  data[key].direccion,
+              tipo_usuario: data[key].tipo_usuario,
+              telefono:  data[key].telefono,
+             puntaje: data[key].puntaje,
+             email:  data[key].email,
+             key:  key,
+            }));
+          subscriber.next(rep);
+      }, (error) => {
+        console.error('Error al obtener datos de Firebase:', error);
+        subscriber.error(error);
+      });
+  
+      return () => {
+        unsubscribe();
+      };
+    });
+  }
+  async AddEntrega(pedido : PedidOut[], repartidor : RepOut){
+    const newEntrega:EntregOut = {
+      direccion:'',
+      estado: pedido[0].estado,
+      id_repartidor: repartidor.key,
+      key: '',
+      pedidos: pedido,
+    };
+    const newRef = await push(EntreRef, newEntrega);
+    const key = newRef.key;
+    if(key !== null){
+      newEntrega.key = key;
+      update(newRef,newEntrega);
+    }
+    
+  }
+  LoadRepart(): Observable<RepartOut[]> {
+    return new Observable<RepartOut[]>((subscriber) => {
+      const unsubscribe = onValue(repartRef, (snapshot: DataSnapshot) => {
+        if (!snapshot.exists()) {
+          console.log('No se encontraron datos en Firebase');
+          subscriber.next([]);
+          return;
+        }
+        const data = snapshot.val();
+          const rep: RepartOut[] = Object.keys(data)
+          .filter((key) => data[key].estado == 'Disponible')
+            .map((key) => ({
+              disponibilidad: data[key].disponibilidad,
+              id_usuario:data[key].id_usuario,
+              licencia_conducir: data[key].licencia_conducir,
+              vehiculo: data[key].vehiculo,
+              key : key,
+            }));
+          subscriber.next(rep);
+      }, (error) => {
+        console.error('Error al obtener datos de Firebase:', error);
+        subscriber.error(error);
+      });
+  
+      return () => {
+        unsubscribe();
+      };
+    });
   }
   //////////////////////////////////
 }
@@ -302,6 +377,14 @@ export class EntregOut{
   estado:string = '';
   id_repartidor: any;
   key: any;
-  pedidos:string = '';
+  pedidos: any= '';
   
 };
+export class  RepartOut{
+  disponibilidad: string = 'No disponible';
+  id_usuario:any;
+  licencia_conducir: string = '';
+  vehiculo: string = '';
+  key : any;
+};
+//// Disponible

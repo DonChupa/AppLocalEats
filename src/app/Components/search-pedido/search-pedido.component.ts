@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService,PedidOut,RepOut, RestIn} from 'src/app/Services/DatabaseService/database.service';
+import { ViewChild } from '@angular/core';
+import { IonModal, ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { DatabaseService,PedidOut,RepOut, RestIn, RepartOut} from 'src/app/Services/DatabaseService/database.service';
 import { DataService } from 'src/app/Services/DataService/data.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-search-pedido',
@@ -8,6 +13,9 @@ import { DataService } from 'src/app/Services/DataService/data.service';
   styleUrls: ['./search-pedido.component.scss'],
 })
 export class SearchPedidoComponent  implements OnInit {
+  @ViewChild('modal') modal: IonModal | undefined;
+  @ViewChild('secondModal') secondModal: IonModal | undefined;
+
   Peds : PedidOut[] | any;
   event = { detail: {value : 'En Espera'}}
   filteredpeds: any[] = [];
@@ -28,7 +36,9 @@ export class SearchPedidoComponent  implements OnInit {
     imagen: '',
   };
 rests$: RestIn[]= [];
-  constructor(private db: DatabaseService, private data: DataService) { }
+pedido: PedidOut[]= [];
+
+  constructor(private db: DatabaseService, private data: DataService, private modalCtrl: ModalController, private router : Router) { }
   countdown: number = 5;
   intervalId: any;
   async ngOnInit() {
@@ -41,23 +51,26 @@ this.inic();
     startCountdown() {
       this.bar = true;
       this.countdown = 10; 
-      this.intervalId = setInterval(() => {
-        this.countdown--;
-        console.log('alo');
-        if (this.countdown <= 0) {
-          clearInterval(this.intervalId);
-          if (!this.content) { 
-            this.onCountdownEnd(); 
-          }
-        }
-      }, 1000);
+      this.intervalId = setTimeout(() => {
+        this.onCountdownEnd();
+      }, this.countdown * 500);
     }
-    // Método que se ejecuta cuando el contador llega a cero
+
     onCountdownEnd() {
-      console.log('El contador ha llegado a cero y el dato sigue siendo false');
-      this.bar = false;
+      if (!this.content){
+        this.bar = false;
+        console.log('auu');
+      }
+    }
+    async closeModal() {
+      await this.modalCtrl.dismiss();
     }
   
+    async openModal() {
+      if (this.modal) {
+        await this.modal.present();
+      }
+    }
   segmentChanged(event: any) {
     console.log(event.detail.value);
     this.segmentValue = event.detail.value;
@@ -79,6 +92,14 @@ this.inic();
       }
     )
   }
+  }
+  async openSecondModal(){
+    if (this.secondModal){
+    await this.secondModal.present();
+  }
+
+    
+
   }
   async filterPeds(p :PedidOut[]){
     this.filteredpeds = [];
@@ -105,10 +126,24 @@ this.inic();
     }
     console.log(this.content);
   }
+  AddEntrega(p:PedidOut[], rep : RepOut){
+    this.db.AddEntrega(p, rep);
 
-  changeState(p : PedidOut){
-    p.estado = this.Stado(p.estado);
-    this.db.UpdPd(p);
+  }
+  repartidores: Observable<RepartOut[]> | any;
+  repartidor: RepOut[] = [];
+  searchRepipi(repi : RepartOut){
+    this.db.loadClient(repi.id_usuario).subscribe(
+      data => {
+        
+      }
+    );
+  }
+  changeState(p : PedidOut[]){
+    p.forEach((pedid)=>{
+      pedid.estado = this.Stado(pedid.estado);
+      this.db.UpdPd(pedid);
+    });
   }
   Stado(e: string): string {
     switch (e) {
@@ -130,7 +165,10 @@ this.inic();
     console.log('deleteado chavalin');
   }
 
-
+movercoquito(){
+  this.closeModal();
+  this.router.navigate(['/main']);
+};
   async Ver(a : string){
     console.log(this.rest);
     this.db.LoadPed(a, this.rest.id).subscribe(
