@@ -78,8 +78,11 @@ export class DatabaseService {
     .catch((error) => {
       console.error('Error:', error);
     });
-
-    
+  }
+  UpdateRest(newRest : RestIn){
+      const key = newRest.id;
+      const newRef = ref(database, `Restaurante/${key}`);
+      update(newRef, newRest);
   }
   LoadProds(id : any): Observable<ProdIn[]> {
     return new Observable<ProdIn[]>((subscriber) => {

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { DataService } from 'src/app/Services/DataService/data.service';
 import { ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
-import { ref } from 'firebase/database';
+
 
 
 @Component({
@@ -14,7 +14,9 @@ import { ref } from 'firebase/database';
   styleUrls: ['./crud-prod.component.scss'],
 })
 export class CrudProdComponent  implements OnInit {
+  immagen = 'https://cdn.iconscout.com/icon/premium/png-256-thumb/no-image-2840213-2359555.png';
   @ViewChild('modal') modal: IonModal | undefined;
+  @ViewChild('modal2') modal2: IonModal | undefined;
   prods : ProdIn[] = [];
   r : RestIn = {
     direccion : '',
@@ -33,7 +35,7 @@ export class CrudProdComponent  implements OnInit {
     id:'',
     id_restaurante:'',
     precio:0,
-    imagen:'https://img-global.cpcdn.com/recipes/1c086891517e39e1/680x482cq70/hamburguesa-fit-con-pan-nube-foto-principal.jpg',
+    imagen: this.immagen,
   };
   constructor(private db: DatabaseService, private modalCtrl: ModalController, private data: DataService) { }
 
@@ -46,7 +48,7 @@ export class CrudProdComponent  implements OnInit {
         this.db.LoadProds(data[0].id).subscribe(
           datta => {
             this.prods = datta;
-            console.log('aaremangala',datta);
+            console.log(datta);
           }
         );
       }
@@ -54,7 +56,7 @@ export class CrudProdComponent  implements OnInit {
     
   }
   async update(newProd: ProdIn){
-    if(this.prod.descripcion !== ''){
+    if(this.prod.descripcion!='' || this.prod.nombre !='' || this.prod.precio !=0 || this.prod.imagen != this.immagen){
       console.log(newProd.id);
       if(newProd.id !== ''){
         this.db.UpdProd(newProd);
@@ -63,26 +65,69 @@ export class CrudProdComponent  implements OnInit {
       }
     
     this.closeModal();
-    this.prod = {
+    }
+  }
+  async closeModal() {
+    this.prod ={
       descripcion:'',
       nombre:'',
       id:'',
       id_restaurante:'',
       precio:0,
-      imagen:'https://img-global.cpcdn.com/recipes/1c086891517e39e1/680x482cq70/hamburguesa-fit-con-pan-nube-foto-principal.jpg',
+      imagen: this.immagen,
     };
-    }
-  }
-  async closeModal() {
     await this.modalCtrl.dismiss();
   }
+
+
+
   async openModal(p :ProdIn) {
-    this.prod = p; 
+    this.prod = p;
     if (this.modal) {
       await this.modal.present();
     }
   }
+  async openModal2() {
+    if (this.modal2) {
+      await this.modal2.present();
+    }
+  }
+  
   deleteprod(p: ProdIn){
     this.db.RemoveProd(p);
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.prod.imagen = reader.result as string;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+  onFileRestSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.r.imagen = reader.result as string;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+  async updateRest(newRest: RestIn){
+    if(newRest.nombre !='' || newRest.telefono != '' ){
+      console.log(newRest);
+      this.db.UpdateRest(newRest);
+    this.closeModal();
+    }
   }
 }

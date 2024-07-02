@@ -1,3 +1,4 @@
+<ion-button (click)="openModal2()"> Modificar Local </ion-button>
 <div *ngFor=" let p of prods">
   <ion-card style=" text-align: center;">
   <p style="padding: 10%;"><img [src]="p.imagen" alt=""></p> 
@@ -8,7 +9,7 @@
 <p>  <ion-button (click)="openModal(p)"> modificar </ion-button></p> 
 <p>  <ion-button (click)="deleteprod(p)"> eliminar </ion-button></p> 
 </div>
-
+<!-- Menu Modif o Crear Prod-->
   <ion-modal #modal>
     <ng-template>
       <ion-header>
@@ -22,6 +23,7 @@
         <ion-card style="text-align: center; padding:5%;display:flex; flex-direction: column;">
           <div style="display: flex; align-items: center; flex-direction: column;">
           <img [src]="prod.imagen" alt="">
+          <ion-input type="file" (change)="onFileSelected($event)"></ion-input>
           <font size="7" style="width: 100%; display: block;"><ion-input [(ngModel)]="prod.nombre" name="nombre" placeholder="Nombre"></ion-input></font>
           <ion-textarea [(ngModel)]="prod.descripcion" name="descripcion" placeholder="Descripción"></ion-textarea>
           <ion-input [(ngModel)]="prod.precio" name="precio" placeholder="Precio" type="number"></ion-input>
@@ -31,6 +33,34 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+<!-- Menu Modif Restaurant-->
+  <ion-modal #modal2>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-card style="text-align: center; padding:5%;display:flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; flex-direction: column;">
+          <img [src]="r.imagen" alt="">
+          <ion-input type="file" (change)="onFileRestSelected($event)"></ion-input>
+          <font size="7" style="width: 100%; display: block;"><ion-input [(ngModel)]="r.nombre" name="nombre" placeholder="Nombre"></ion-input></font>
+          <ion-input [(ngModel)]="r.telefono" name="telefono" placeholder="telefono" type="number"></ion-input>
+          <ion-input [(ngModel)]="r.h_apertura" name="h_apertura" placeholder="horario apertura"></ion-input>
+          <ion-input [(ngModel)]="r.h_cierre" name="h_cierre" placeholder="horario cierre"></ion-input>
+          <ion-button (click)="updateRest(r)">Aceptar</ion-button>
+        </div>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
 </ion-card>
 </div>
 <div style="text-align: center;">
