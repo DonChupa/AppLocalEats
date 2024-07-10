@@ -42,7 +42,13 @@ export class CrudProdComponent  implements OnInit {
   async ngOnInit() {
     const admin = await this.data.getItem('rest');
       this.r$ = this.db.LoadRest(admin[0]);
-      this.r$.subscribe(
+      this.loadProds();
+      
+    
+  }
+  loadProds(){
+    if ( this.r$){
+    this.r$.subscribe(
       data => {
         this.r = data[0];
         this.db.LoadProds(data[0].id).subscribe(
@@ -52,8 +58,7 @@ export class CrudProdComponent  implements OnInit {
           }
         );
       }
-    )
-    
+    )}
   }
   async update(newProd: ProdIn){
     if(this.prod.descripcion!='' || this.prod.nombre !='' || this.prod.precio !=0 || this.prod.imagen != this.immagen){
@@ -76,6 +81,7 @@ export class CrudProdComponent  implements OnInit {
       precio:0,
       imagen: this.immagen,
     };
+    this.loadProds();
     await this.modalCtrl.dismiss();
   }
 
