@@ -37,6 +37,7 @@ export class DatabaseService {
               puntaje: data[key].puntaje,
               email: email,
               key: key,
+              pass: data[key].pass,
             }));
           subscriber.next(rep);
         } else {
@@ -54,23 +55,9 @@ export class DatabaseService {
 
 
 
-  UpdateRep(nombre: string, email: string, tefono: number, key: any, direccion: string, apellido:string){
-    const img: string ='';
-    const puntos: any ='';
-    const hol: string = 'repartidor';
-    const disp = 'No disponible';
+  UpdateAdmin(nuevoUser : RepOut){
+    const key = nuevoUser.key;
     const userRef = ref(database, `Usuarios/${key}`);
-    const nuevoUser: RepOut = {
-      nombre: nombre,
-      imagen: img,
-      apellido: apellido,
-      direccion: direccion,
-      tipo_usuario: hol,
-      telefono: tefono, 
-      email: email,
-      puntaje: puntos,
-      key: key,
-    };
     update(userRef, nuevoUser)
     .then(() => {
       console.log('listo');
@@ -176,22 +163,8 @@ export class DatabaseService {
   }
 
   
-  async AddRest(nombre: string, email: string, tefono: number, apellido: string) {
-    const hola : string='';
-    const hol : string='restaurante';
-    const img : string = 'https://www.corazon.cl/wp-content/uploads/2018/05/640-1448125125819-1.jpg';
-    const punt : any = '';
-    const nuevoclient: RepOut = {
-      nombre: nombre,
-      imagen: img,
-      apellido: apellido,
-      direccion: hola,
-      tipo_usuario: hol,
-      telefono: tefono, 
-      puntaje: punt,
-      email: email,
-      key: hola,
-    };
+  async AddClient(nuevoclient : RepOut) {
+    nuevoclient.tipo_usuario = 'restaurante';
     const newRef = await push(repRef, nuevoclient);
     const key = newRef.key;
     if (key !== null){
@@ -278,6 +251,7 @@ export class DatabaseService {
              puntaje: data[key].puntaje,
              email:  data[key].email,
              key:  key,
+             pass : data[key].pass,
             }));
           subscriber.next(rep);
       }, (error) => {
@@ -343,10 +317,11 @@ export class  RepOut{
   imagen: string = '';
   direccion: string = '';
   tipo_usuario:string = 'restaurante';
-  telefono: number = 0;
+  telefono: number | undefined = 0;
   puntaje:any;
   email: string = '';
   key: string= '';
+  pass: string= '';
 };
 export class ProdIn {
   descripcion: string = '';

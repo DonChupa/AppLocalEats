@@ -8,10 +8,10 @@
         <form (ngSubmit)="register()">
           <nav style="display: flex; justify-content: space-between;">
      <div style="width: 49%;">
-      <ion-input [(ngModel)]="nombre" name="email" label="nombre"  type="text"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
+      <ion-input [(ngModel)]="admin.nombre" name="nombre" label="nombre"  type="text"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
       </div>
       <div style="width: 49%;">
-        <ion-input [(ngModel)]="apellido" name="apellido" label="apellido"  type="text"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
+        <ion-input [(ngModel)]="admin.apellido" name="apellido" label="apellido"  type="text"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
         </div>
       </nav>
       <nav style="display: flex; justify-content: space-between;">
@@ -19,16 +19,16 @@
           <font size="6">+56</font>
         </div>
         <div style="margin-top: 10%; width:75%;">
-          <ion-input [(ngModel)]="telefono" name="email" label="telefono"  type="number" label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
+          <ion-input [(ngModel)]="admin.telefono" name="email" label="telefono"  type="number" label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
           
           </div>
           
         </nav>
         <div style="margin-top: 10%;">
-          <ion-input [(ngModel)]="email" name="email" label="Correo electrónico"  type="email"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
+          <ion-input [(ngModel)]="admin.email" name="email" label="Correo electrónico"  type="email"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
           </div>
       <div style="margin-top: 10%;">
-      <ion-input [(ngModel)]="password" name="password" label="Contraseña" type="password"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
+      <ion-input [(ngModel)]="admin.pass" name="password" label="Contraseña" type="password"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
       </div>
     <ion-button  type="submit" style="--background:green; --border-radius: 10px; display: block;  margin: 20px; color: black;height: 50px;">Registrar</ion-button>
     <div *ngIf="errorMessage" class="error-message">
