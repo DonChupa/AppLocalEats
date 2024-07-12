@@ -1,24 +1,39 @@
-<ion-card style="border-radius: 20px; background-color: #fffffff3 ; position: relative; top: 200px;">
-  <ion-card-content>
-      <nav >
-  <form (ngSubmit)="Login()">
-    <div style="margin-top: 10%;">
-      <ion-input [(ngModel)]="email" name="email" label="Correo electrónico"  type="email"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color: #0b206e;"></ion-input>
-    </div>
-    <div style="margin-top: 10%;">
-      <ion-input [(ngModel)]="password" name="password" label="Contraseña" type="password"label-placement="floating"  placeholder="" required style="box-shadow: #0b206e 0px 3px 0px; border-radius: 10px; color:  #0b206e; "></ion-input>
-    </div>
-    <ion-button  type="submit" style="--background: #d12b39fa; --border-radius: 10px; display: block;  margin: 15px; color: white ;height: 50px;">iniciar sesion</ion-button>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-  </form>
-  </nav>
-</ion-card-content>
-</ion-card>
-<ion-card style="position: relative; top: 200px;">
+<ion-content [fullscreen]="true" class="blannk" >
+  <ion-card class="seg"><img  src="../../../assets/images/logo.png" alt="" style="position: absolute; height: 122px;  "></ion-card>
 
-  <ion-card-content style=" background-color: #fffffff3 ;">
-    <h3 style="color: black; ">Crear Cuenta <button [routerLink]="['/register']" style=" background-color: #fffffff3 ; color: #0037fc;"> Registrarse</button></h3>
-  </ion-card-content>
-</ion-card>
+  <ion-card class="card-todo">
+    <ion-card-content>
+      <div style="margin-top: 40px;">
+        <h1 style="margin: 20px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: black;">Bienvenido</h1>
+      </div>  
+      <nav >
+    <form (ngSubmit)="Login()">
+      <label for="" style="margin: 20px; font-family: Verdana, Geneva, Tahoma, sans-serif; ">Correo Electronico</label>
+      <div class="login-1">
+        <div>
+          <ion-input [(ngModel)]="email" name="email"   type="email" placeholder="  Correo electrónico" required ></ion-input>
+        </div>
+      </div>
+      <div style="margin-top: 30px;">
+        <label for="" style="margin: 20px; font-family: Verdana, Geneva, Tahoma, sans-serif;">Contraseña</label>
+      </div>
+      <div class="login-1">
+        <div>
+          <ion-input [(ngModel)]="password" name="password"  type="password"  placeholder="  Contraseña" required ></ion-input>
+        </div>
+      </div>
+      <div class="boton-si">
+        <ion-button  type="submit" >iniciar sesion</ion-button>
+      </div>
+      <div *ngIf="errorMessage" class="error-message" style="color: #FF5C00; margin: 20px;">
+        {{ errorMessage }}
+      </div>
+    </form>
+    </nav>
+
+        <div style="margin-left: 95px;">
+          <h3 style="color: black; ">Crear Cuenta <button [routerLink]="['/register']" style="margin-top: 20px; color: #FF5C00;"> Registrarse</button></h3>
+        </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

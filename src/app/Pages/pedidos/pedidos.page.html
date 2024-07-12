@@ -4,19 +4,15 @@
       <app-search-pedido></app-search-pedido>
 
 </ion-content>
-<ion-footer>
+
       <ion-tab-bar slot="bottom" >
-        <ion-tab-button [routerLink]="['/pedidos']">
-          <ion-icon name="home-sharp"></ion-icon>
-          Menú pedidos
+        <ion-tab-button [routerLink]="['/pedidos']"  >
+          <ion-icon name="receipt-outline" style="width: 30px; height: 30px;"></ion-icon>
         </ion-tab-button >
-        <ion-tab-button [routerLink]="['/main']">
-          <ion-icon name="radio"></ion-icon>
-          principal
+        <ion-tab-button [routerLink]="['/main']" >
+          <ion-icon name="storefront-outline"style="width: 30px; height: 30px;"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button [routerLink]="['/prods']">
-          <ion-icon name="library"></ion-icon>
-          Menú carta
+        <ion-tab-button [routerLink]="['/prods']" >
+          <ion-icon name="restaurant-outline"style="width: 30px; height: 30px;"></ion-icon>
         </ion-tab-button>
       </ion-tab-bar>
-    </ion-footer>

@@ -1,5 +1,9 @@
-<ion-header>
-  <ion-toolbar>
+<ion-content [fullscreen]="true">
+  <div style=" margin-left: 90px; color: white ; margin-top: 20px;  ">
+    <font size="6"> Mis Pedidos</font>
+  </div>
+  <ion-card class="card-todo">
+    
     <ion-segment [(ngModel)]="segmentValue" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="En Espera" checked>
         <ion-label>En espera</ion-label>
@@ -12,9 +16,6 @@
       </ion-segment-button>
     </ion-segment>
 
-    
-  </ion-toolbar>
-</ion-header>
 <nav>
  
 </nav>
@@ -63,8 +64,8 @@
 
     </ng-template>
   </ng-template>
-
-
+  </ion-card>
+</ion-content>
 
   <ion-modal #modal>
     <ng-template>
