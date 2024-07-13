@@ -5,10 +5,10 @@
   </div>
   <ion-card class="card-todo">
     <div *ngIf="repartidor$ | async as admin; else loading">
-      
-      <h1>{{ admin[0].nombre }} {{ admin[0].apellido }}</h1>
-      <p><strong>Teléfono:</strong> {{ admin[0].telefono }}</p>
-   
+      <div style="text-align: center; margin-top: 20px;">
+        <h1>{{ admin[0].nombre }} {{ admin[0].apellido }}</h1>
+        <p><strong>Teléfono:</strong> {{ admin[0].telefono }}</p>
+      </div>  
     </div>
     <ng-template #loading>
       <p>Cargando datos del repartidor...</p>

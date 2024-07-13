@@ -9,72 +9,93 @@
       </div>
     
     <div *ngFor=" let p of prods">
-      <ion-card style=" text-align: center;">
-      <p style="padding: 10%;"><img [src]="p.imagen" alt=""></p> 
-      <p>  <font size="7"> {{ p.nombre }}</font></p> 
-      <p> {{ p.descripcion }}</p>
-      <p> {{ p.precio }}</p>
-      <div style="display: flex; justify-content: space-around;">
-      <p>  <ion-button (click)="openModal(p)"> modificar </ion-button></p> 
-      <p>  <ion-button (click)="deleteprod(p)"> eliminar </ion-button></p> 
-      </div>
-    
-    <!-- Menu Modif o Crear Prod-->
-      <ion-modal #modal>
-        <ng-template>
-          <ion-header>
-            <ion-toolbar>
-              <ion-buttons slot="end">
-                <ion-button (click)="closeModal()">cancelar</ion-button>
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-header>
-          <ion-content>
-            <ion-card style="text-align: center; padding:5%;display:flex; flex-direction: column;">
-              <div style="display: flex; align-items: center; flex-direction: column;">
-              <img [src]="prod.imagen" alt="">
-              <ion-input type="file" (change)="onFileSelected($event)"></ion-input>
-              <font size="7" style="width: 100%; display: block;"><ion-input [(ngModel)]="prod.nombre" name="nombre" placeholder="Nombre"></ion-input></font>
-              <ion-textarea [(ngModel)]="prod.descripcion" name="descripcion" placeholder="Descripción"></ion-textarea>
-              <ion-input [(ngModel)]="prod.precio" name="precio" placeholder="Precio" type="number"></ion-input>
-              <ion-button (click)="update(prod)">Aceptar</ion-button>
-            </div>
-            </ion-card>
-          </ion-content>
-        </ng-template>
-      </ion-modal>
-
-    <!-- Menu Modif Restaurant-->
-      <ion-modal #modal2>
-        <ng-template>
-          <ion-header>
-            <ion-toolbar>
-              <ion-buttons slot="end">
-                <ion-button (click)="closeModal()">cancelar</ion-button>
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-header>
-          <ion-content>
-            <ion-card style="text-align: center; padding:5%;display:flex; flex-direction: column;">
-              <div style="display: flex; align-items: center; flex-direction: column;">
-              <img [src]="r.imagen" alt="">
-              <ion-input type="file" (change)="onFileRestSelected($event)"></ion-input>
-              <font size="7" style="width: 100%; display: block;"><ion-input [(ngModel)]="r.nombre" name="nombre" placeholder="Nombre"></ion-input></font>
-              <ion-input [(ngModel)]="r.telefono" name="telefono" placeholder="telefono" type="number"></ion-input>
-              <ion-input [(ngModel)]="r.h_apertura" name="h_apertura" placeholder="horario apertura"></ion-input>
-              <ion-input [(ngModel)]="r.h_cierre" name="h_cierre" placeholder="horario cierre"></ion-input>
-              <ion-button (click)="updateRest(r)">Aceptar</ion-button>
-            </div>
-            </ion-card>
-          </ion-content>
-        </ng-template>
-      </ion-modal>
-
-
-      </ion-card>
+      
+        <div class="imagenes">
+          <img [src]="p.imagen" alt="">
+        </div>
+        <div style="text-align: center;">
+          <font size="6" style=" margin-top: -10px; width: 200px; "> {{ p.nombre }}</font>
+        </div>
+        <ion-textarea placeholder=" {{ p.descripcion }}" style="margin-left: 40px; width: 320px; height: 60px;  margin-top: 10px;"> </ion-textarea>
+        <font size="6" style="margin-left: 150px; color: #FF5C00; margin-top: 10px;"> ${{ p.precio }}</font>
+        <div class="boton_bienvenido">
+          <ion-button (click)="openModal(p)"> modificar </ion-button> 
+          <ion-button (click)="deleteprod(p)"> eliminar </ion-button> 
+        </div>  
+      <div style="border: 0.5px groove  #FF5C00; width: 90%; margin-left: 30px; margin-top: 20px; " ></div>
     </div>
     
       
   </ion-card>
 </ion-content>
 
+    <!-- Menu Modif Restaurant-->
+      <ion-modal #modal2>
+        <ng-template>
+          <ion-content>
+            <div style=" margin-left: 100px; color: white ; margin-top: 20px;  ">
+              <font size="6"> Editar Tienda</font>
+            </div>
+                <ion-card (click)="closeModal()" class="iconos-boton">
+                  <ion-icon name="chevron-back-outline" style="width: 30px; height: 28px;"></ion-icon>
+                </ion-card>
+            <ion-card class="card-todo">
+              <div class="imagen">
+                <img [src]="r.imagen" alt="">
+              </div>
+              <ion-card class="subir-foto">
+                <ion-icon name="camera-outline" style="width: 38px; height:40px; position: absolute; ">  </ion-icon>
+                  <ion-input type="file" (change)="onFileRestSelected($event)"  style=" color: black; position: relative; opacity: 0;"></ion-input>
+              </ion-card>
+              <font size="6" style="width: 200px; display: block; margin-left: 100px; background-color: #fff3cd;color: black;border-radius: 10px;"><ion-input [(ngModel)]="r.nombre" name="nombre" placeholder="Nombre"></ion-input></font>
+              <ion-input [(ngModel)]="r.telefono" name="telefono" placeholder="telefono" type="number" style="margin-left: 150px; background-color: #fff3cd;color: black;border-radius: 10px; margin-top: 20px; width: 100px;"></ion-input>
+              <ion-input [(ngModel)]="r.h_apertura" name="h_apertura" placeholder="horario apertura" style="margin-left: 150px; background-color: #fff3cd;color: black;border-radius: 10px; margin-top: 20px; width: 100px;"></ion-input>
+              <ion-input [(ngModel)]="r.h_cierre" name="h_cierre" placeholder="horario cierre" style="margin-left: 150px; background-color: #fff3cd;color: black;border-radius: 10px; margin-top: 20px; width: 100px;"></ion-input>
+              <div class="boton_bienvenido " style="margin-left: 120px;">
+                <ion-button (click)="updateRest(r)">Aceptar</ion-button>
+              </div>
+            </ion-card>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+
+
+
+<!-- Menu Modif o Crear Prod-->
+
+    <ion-modal #modal>
+      
+        
+      <ng-template>
+              
+            
+        <ion-content>
+          <div style=" margin-left: 100px; color: white ; margin-top: 20px;  ">
+            <font size="6"> Editar Producto</font>
+          </div>
+          <ion-card   (click)="closeModal()" class="iconos-boton" >
+            <ion-icon name="chevron-back-outline" style="width: 30px; height: 28px;"></ion-icon>
+          </ion-card>
+          
+          <ion-card class="card-todo">
+            <div class="imagen">
+              <img [src]="prod.imagen" alt="">
+            </div>
+            <ion-card class="subir-foto">
+              <ion-icon name="camera-outline" style="width: 38px; height:40px; position: absolute; ">  </ion-icon>
+                <ion-input type="file" (change)="onFileSelected($event)"  style=" color: black; position: relative; opacity: 0;"></ion-input>
+            </ion-card>
+              
+            <font size="6" style="width: 200px; display: block; margin-left: 100px; background-color: #fff3cd;color: black;border-radius: 10px;"><ion-input [(ngModel)]="prod.nombre" name="nombre" placeholder=" Nombre"></ion-input></font>
+            <ion-textarea [(ngModel)]="prod.descripcion" name="descripcion" placeholder=" Descripción" style="margin-left: 80px;background-color: #fff3cd;color: black;border-radius: 10px; width: 240px; margin-top: 20px;"></ion-textarea>
+            <ion-input [(ngModel)]="prod.precio" name="precio" placeholder="Precio" type="number" style="margin-left: 150px; background-color: #fff3cd;color: black;border-radius: 10px; margin-top: 20px; width: 100px;"></ion-input>
+            <div class="boton_bienvenido " style="margin-left: 120px;">
+              <ion-button (click)="update(prod)">Aceptar</ion-button>
+            </div>
+          </ion-card>
+        </ion-content>
+      </ng-template>
+   
+    </ion-modal>
+    
